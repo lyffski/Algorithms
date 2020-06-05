@@ -1,21 +1,31 @@
-def eigenwert(A): 
-   a = A[0][0]
-   b = A[0][1]
-   c = A[1][0]
-   d = A[1][1]
-   disc = ((((a+d)/2) ** 2) - a*d + b*c) ** 0.5
+def eigenvalue2x2(A): #for 3x3 matrix it is "easier" to do it by hand: -lambda^3 + alpha*lambda^2 + beta*lambda + gamma
+   '''solve the eigenwert using Quadratic Equations''' 
+   a,b,c,d = assign2x2(A)
+   disc = (((a+d)/2) ** 2) - a*d + b*c
    if disc < 0:
-      print("Solutionset do not exist")
-   if disc == 0:
-      eigenwert = ((a+d)/2 + disc)
-      print("L = {" + str(eigenwert) + "}")
-   if disc > 0:
-      eigenwert = ((a+d)/2 + disc)
-      eigenwertN= ((a+d)/2 - disc)
-      print("L = {" + str(eigenwert) +";"+ str(eigenwertN) + "}")
+      msg = "Solutionset do not exist, since the discrimant is negative" 
+      return msg
+   disc = disc ** 0.5
+   if disc >= 0:
+      evp = ((a+d)/2 + disc)
+      evn = ((a+d)/2 - disc)
+      return evp, evn #if the disc have been irrational => substract the evalues
 
+def assign2x2(A):
+   '''cast 2x2 Matrix into variables'''
+   a, b = A[0][0], A[0][1]
+   c, d = A[1][0], A[1][1]
+   return a,b,c,d
+
+def assign3x3(A): 
+   '''cast 3x3 Matrix into variables'''
+   a, b, c = A[0][0],A[0][1],A[0][2]
+   d, e, f = A[1][0],A[1][1],A[1][2]
+   g, h, i = A[2][0],A[2][1],A[2][2]
+   return a,b,c,d,e,f,g,h,i
 
 A = [[3,-1],[1,-1]]
-eigenwert(A)
+msg = eigenvalue2x2(A)
+print(msg)
 
  

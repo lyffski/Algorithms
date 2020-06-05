@@ -1,14 +1,15 @@
 import numpy as np
 #add the i-ten row of x-factor of j-ten row
 #A will be modifly
-def rowMod(A, i, j, x): #elementary row mod of type 3
+def rowMod(A, i, j, x): #elementary row mod of type 3 of Matrix
+    '''INPUT:= 1: Matrix, i: i-ten row, j: j-ten row, x: factor'''
     #A[i] = A[i] + x * A[j]
     A[i] = [a + x * b for a, b in zip(A[i], A[j])]
     #Output: rowMod(A, 0, 1, 3)
     #mod the A Matrix, add the the 0st row the 3rd row that been multiply by 3
 
-
 def rowEchelon(A):
+    '''Gauss: convert the Matrix to Gauss form (pivot is 1 and under only zeros)'''
     row, col = 0, 0     #start in the 1st row and the first col of the matrix
     rows, cols = len(A), len(A[0])  #get the length of the matrix
     while (row < rows and col < cols):  

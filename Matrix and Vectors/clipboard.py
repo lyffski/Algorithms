@@ -30,13 +30,13 @@ def cast3x3(A):
 A2 = np.array([[3,-1],[1,1]])
 A3 = np.array([[5,-1,2],[-1,5,-2],[2,2,2]])
 msg = evQuadratic(A2)
-print(msg)
 
 
 # Ax = b == x = Ab^-1
    # A = np.array([[3,-9],[2,4]])
    # b = np.array([-42,2])
    # x = np.linalg.solve(A,b)
+
 
 
 
