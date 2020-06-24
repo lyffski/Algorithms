@@ -2,11 +2,18 @@ import numpy as np
 import networkx as nx
 
 class Node(object):
-   def _init_(self.name,conn=None):
+   '''create a node '''
+   def __init__(self, name, conn=None):
       self.name = name
       self.conn = {}
       if conn is not None:
          self.conn.update(conn)
+
+node = [
+   Node("A", {"B":1,"C":1}),
+   Node("B", {"A":1,"C":0}),
+   Node("C", {"A":1,"B":0})
+   ]
 
 def shortest_path(start, end):
    P = _dijkstra(start)
@@ -16,22 +23,22 @@ def shortest_path(start, end):
       path.append(node)
       node = P[node]
    return [start] + list(reversed(path))
-
+   
 def _dijkstra(start):
    D, P = {},{}
    for nod in node:
-      D[nod.name], P[nod,name] = float("inf"), None
+      D[nod.name], P[nod.name] = float("inf"), None
    D[start] = 0
-   unseen_nodes:
+   unseen_nodes = list(node)
    while unseen_nodes:
-      shortest = min(unseen_nodes), key=lambda node:D[node.name]
+      shortest = min(unseen_nodes, key=lambda node:D[node.name])
       unseen_nodes.remove(shortest)
       for neighbor, distance in shortest.conn.items():
          if neighbor not in [node.name for node in unseen_nodes]:
             continue
          if D[shortest.name] + distance < D[neighbor]:
             D[neighbor] = D[shortest.name]+distance
-            P[Neighbor] = shortest.name
+            P[neighbor] = shortest.name
    return P
 
  
@@ -54,8 +61,8 @@ def node_degree(A):
    return lt
 
 node_deg = node_degree(A)
-#print(node_deg)
-#cent = nx.degree_centrality(A)
+print(node_deg)
+cent = nx.degree_centrality(A)
 
 
 def huffman(L):
@@ -65,5 +72,5 @@ def huffman(L):
    return huffman([[[S[0], S[1]], S[0][1]+S[1][1]]]+ S[2:])
 
 C = huffman([["a", 10], ["b", 15], ["c", 30], ["d", 20], ["e", 25]])
-print(C)
+
 

@@ -58,9 +58,30 @@ def node_degree(A):
 
 node_deg = node_degree(A)
 print(node_deg)
+ghb
 
 
+from collections import Counter
+import numpy as np
+import matplotlib.pyplot as plt
 
+dataset = {"k":[[1,2],[2,3],[3,1]], "r":[[6,5],[7,7],[8,6]]}
+new_features = [4,1]
 
+def k_nearest_neighbor(data, predict, k=3):
+   distance = []
+   for group in data:
+      for features in data[group]:
+         euclidean_dist = np.linalg.norm(np.array(features)-np.array(predict))
+         distance.append([euclidean_dist, group])
+   pulls = [i[1] for i in sorted(distance)[:k]]
+   print(Counter(pulls).most_common(1))
+   pull_result = Counter(pulls).most_common(1)[0][0]
+   return pull_result
 
+result = k_nearest_neighbor(dataset, new_features, k=3)
+print(result)
 
+[[plt.scatter(ii[0],ii[1], s=100, color=i) for ii in dataset[i]] for i in dataset]
+plt.scatter(new_features[0],new_features[1], s=50, color=result)
+plt.show()

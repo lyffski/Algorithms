@@ -14,4 +14,3 @@ def ggt_ext(a, b, x, y):
 
 x, y, a, b = 1, 1, 11, 15
 ggt = ggt_ext(a, b, x, y)
-print("gtt of ", a , "&" , b, " is = ", g)
