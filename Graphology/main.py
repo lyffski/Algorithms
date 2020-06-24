@@ -18,6 +18,16 @@ def node_degree(A):
    return lt
 
 node_deg = node_degree(A)
-print(node_deg)
+#print(node_deg)
+#cent = nx.degree_centrality(A)
 
-cent = nx.degree_centrality(A)
+
+def huffman(L):
+   if len(L) <= 2:
+      return L
+   S = sorted(L, key = lambda pair: pair[1])
+   return huffman([[[S[0], S[1]], S[0][1]+S[1][1]]]+ S[2:])
+
+C = huffman([["a", 10], ["b", 15], ["c", 30], ["d", 20], ["e", 25]])
+print(C)
+

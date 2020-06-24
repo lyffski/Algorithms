@@ -1,7 +1,5 @@
 import numpy as np
 
-
-
 def arcOf2Vectors(v, u):
     '''Create dotproduct of given vertices'''
     v = v
