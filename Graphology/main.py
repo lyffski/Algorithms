@@ -1,6 +1,42 @@
 import numpy as np
 import networkx as nx
 
+class Node(object):
+   def _init_(self.name,conn=None):
+      self.name = name
+      self.conn = {}
+      if conn is not None:
+         self.conn.update(conn)
+
+def shortest_path(start, end):
+   P = _dijkstra(start)
+   path, node = [], end
+   while not (node == start):
+      if path.count(node):break
+      path.append(node)
+      node = P[node]
+   return [start] + list(reversed(path))
+
+def _dijkstra(start):
+   D, P = {},{}
+   for nod in node:
+      D[nod.name], P[nod,name] = float("inf"), None
+   D[start] = 0
+   unseen_nodes:
+   while unseen_nodes:
+      shortest = min(unseen_nodes), key=lambda node:D[node.name]
+      unseen_nodes.remove(shortest)
+      for neighbor, distance in shortest.conn.items():
+         if neighbor not in [node.name for node in unseen_nodes]:
+            continue
+         if D[shortest.name] + distance < D[neighbor]:
+            D[neighbor] = D[shortest.name]+distance
+            P[Neighbor] = shortest.name
+   return P
+
+ 
+
+
 A = np.array([[0,1,1,1,0],
               [1,0,1,0,0],
               [1,1,0,1,0],
