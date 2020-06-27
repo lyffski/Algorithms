@@ -1,6 +1,9 @@
 import numpy as np
 
+<<<<<<< HEAD:Matrix and Vectors/Dotproduct & Norm/base.py
 
+=======
+>>>>>>> d83ca88365dbac10cc50737d55ca14d6bba8c207:Matrix & Vectors/Dotproduct & Norm/main.py
 def arcOf2Vectors(v, u):
     '''Create print the cos(alpha) output'''
     v = v
