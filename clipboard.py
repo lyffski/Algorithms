@@ -28,8 +28,8 @@ class Support_Vector_Machine:
       self.max_feature_value = max(all_data)
       self.min_feature_value = min(all_data)
       all_data = None
-
-      #suprot vectors yi (xi.w+b) = 1 //for both negative and positive "classes/sign" of equation at least to be the nearest to 1 
+      #each stepsize is a order of norms smaller
+      #suprot vectors yi (xi.w+b) = 1 //for both negative and positive "classes/sign" of equation at least to be the nearest to 1 ;;; the logic for stepping down of step values
       step_sizes = [self.max_feature_value * 0.1,  # big step to find the loweste value of convex; if exceed (the low value been increased) do smaller steps
                     self.max_feature_value *0.01,] # if exceed => you step now with lowest range (each step on x-axis to reach the lowest point of convex; ballquadratic)
                     # point of expense:
@@ -72,9 +72,9 @@ class Support_Vector_Machine:
          norms = sorted([n for n in opt_dict]) # sorting the list of the norms asc 
          #||w|| : [w,b] //norm of w key to value of w and b
          opt_choice = opt_dict[norms[0]] #after sort, we want take as the optimal choice the lowest norm value
-         self.w = opt_choice[0] # opt_choice is dictonary
+         self.w = opt_choice[0] # opt_choice is dictionar so can save multiply values under one key
          self.b = opt_choice[1]
-         latest_optimum = opt_choice[0][0]+step*2
+         latest_optimum = opt_choice[0][0]+step*2 #latest_optimum (is normal value) := [var][var] //IMPORTANT if loop reaped have the lowest value already
        
       for i in self.data:
          for xi in self.data[i]:
