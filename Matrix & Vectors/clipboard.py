@@ -9,12 +9,11 @@ class Support_Vector_Machine:
       self.color = {1:"r", -1:"b"}
       if self.visualization:
          self.fig = plt.figure()
-         self.ax = self.fig.add_subplot(1,1,1)
+         self.ax = self.fig.add_subplot(1,1,1) # fig(1,1,1) 1st and 2rd are the grid so 1x1 grid  the 3rd 1 the the id of subplot
    
    def fit(self, data):
       self.data = data
-      # ||w||: [w,b]
-      opt_dict = {}
+      opt_dict = {} # ||w||: [w,b] // ||w|| is the key to the assign "w" and "b" values
       transforms = [[1,1],
                     [-1,1],
                     [-1,-1],
@@ -31,49 +30,49 @@ class Support_Vector_Machine:
       all_data = None
 
       #suprot vectors yi (xi.w+b) = 1 //for both negative and positive "classes/sign" of equation at least to be the nearest to 1 
-      step_sizes = [self.max_feature_value * 0.1,
-                    self.max_feature_value *0.01,]
+      step_sizes = [self.max_feature_value * 0.1,  # big step to find the loweste value of convex; if exceed (the low value been increased) do smaller steps
+                    self.max_feature_value *0.01,] # if exceed => you step now with lowest range (each step on x-axis to reach the lowest point of convex; ballquadratic)
                     # point of expense:
-                    #self.max_feature_value * 0.001,]
+                    #self.max_feature_value * 0.001,] 
 
       # extremely expensive
-      b_range_multiple = 5
-      # we do not need to take as small steps
-      #with b as we do with w
+      b_range_multiple = 5 # as value as precises so big step of "b"
+      # we do not need to take as small steps with b as we do with w, but IMPORTANT you can use the same stepping with b as with w, but cost time
       b_multiple = 5 
-      latest_optimum = self.max_feature_value*10
+      latest_optimum = self.max_feature_value*10 # start as the first element of vector "w"
 
       for step in step_sizes:
-         w = np.array([latest_optimum, latest_optimum])
-         optimized = False # able, since it convex probelm if no then you should ensure that you will add some further steps.
+         w = np.array([latest_optimum, latest_optimum]) # reassign as the steps continues
+         optimized = False # able, since it convex problem, if no then you should ensure that you will add some further steps.
          while not optimized: 
-            for b in np.arange(-1*(self.max_feature_value*b_range_multiple),self.max_feature_value*b_range_multiple,step*b_multiple):
-               for transformation in transforms:
+            for b in np.arange(-1*(self.max_feature_value * b_range_multiple), self.max_feature_value * b_range_multiple, step * b_multiple):
+               for transformation in transforms: #loop runs from the highest w, for example if 8 is, since it is mulplie with *10 so it would run through a bench "w" that are in between -80 and 80
                   w_t = w*transformation
                   found_option = True
                   #weakest link in the SVM fundamentally
                   #SMO attempts to ifx this a bit
                   #yi(xi.w+b0) >= 1 
-                  for i in self.data:
+                  # weakest link in the SVM fundamentally, since you have to run there through ALL data given to the program to make sure it fits
+                  for i in self.data: # "i" is the class, so here it ist whether it is positive or negative
                      for xi in self.data[i]:
-                        yi = i 
-                        if not yi*(np.dot(w_t,xi)+b)>= 1:
+                        yi = i # for clearness
+                        if not yi*(np.dot(w_t,xi)+b)>= 1: # if one of the sample do not fit the definition => all have to throw out
                            found_option = False
-                        #print(xi,":",yi*(np.dot(w_t,xi)+b))
-                           #break
+                           break
+                        #print(xi,":",yi*(np.dot(w_t,xi)+b)) #not needed
 
-                  if found_option:
-                     opt_dict[np.linalg.norm(w_t)] = [w_t,b]
+                  if found_option: # if everything have been validated
+                     opt_dict[np.linalg.norm(w_t)] = [w_t,b] #norm of x_t <=> ||w|| as key  =   the complied values of w (transformed) and b  
                      
-            if w[0] < 0:
+            if w[0] < 0: # w[0] the value of each index are the same;  and we do not have to go further then zero, since we had the transfrom already done. 
                optimized = True
                print("Optimized a step")
             else:
-               w = w - step # step:= [step, step]
-         norms = sorted([n for n in opt_dict])
-         #||w|| : [w,b]
-         opt_choice = opt_dict[norms[0]]
-         self.w = opt_choice[0]
+               w = w - step # so: [w][w] - [step, step]
+         norms = sorted([n for n in opt_dict]) # sorting the list of the norms asc 
+         #||w|| : [w,b] //norm of w key to value of w and b
+         opt_choice = opt_dict[norms[0]] #after sort, we want take as the optimal choice the lowest norm value
+         self.w = opt_choice[0] # opt_choice is dictonary
          self.b = opt_choice[1]
          latest_optimum = opt_choice[0][0]+step*2
        
