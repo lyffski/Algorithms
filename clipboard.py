@@ -20,7 +20,7 @@ class Support_Vector_Machine:
                     [1,-1],]
       
       all_data = []
-      for yi in self.data:
+      for yi in self.data: # cast all data into "all_data"
          for featureset in self.data[yi]:
             for feature in featureset:
                all_data.append(feature) 
@@ -31,32 +31,31 @@ class Support_Vector_Machine:
       #each stepsize is a order of norms smaller
       #suprot vectors yi (xi.w+b) = 1 //for both negative and positive "classes/sign" of equation at least to be the nearest to 1 ;;; the logic for stepping down of step values
       step_sizes = [self.max_feature_value * 0.1,  # big step to find the loweste value of convex; if exceed (the low value been increased) do smaller steps
-                    self.max_feature_value *0.01,] # if exceed => you step now with lowest range (each step on x-axis to reach the lowest point of convex; ballquadratic)
+                    self.max_feature_value *0.01, # if exceed => you step now with lowest range (each step on x-axis to reach the lowest point of convex; ballquadratic)
                     # point of expense:
-                    #self.max_feature_value * 0.001,] 
+                    self.max_feature_value * 0.001,] 
 
       # extremely expensive
-      b_range_multiple = 5 # as value as precises so big step of "b"
+      b_multiple_range = 5 # as value as precises so big step of "b"
       # we do not need to take as small steps with b as we do with w, but IMPORTANT you can use the same stepping with b as with w, but cost time
       b_multiple = 5 
-      latest_optimum = self.max_feature_value*10 # start as the first element of vector "w"
+      latest_optimum = self.max_feature_value*10 # start as the first (and highest element) of vector "w"
 
       for step in step_sizes:
          w = np.array([latest_optimum, latest_optimum]) # reassign as the steps continues
          optimized = False # able, since it convex problem, if no then you should ensure that you will add some further steps.
-         while not optimized: 
-            for b in np.arange(-1*(self.max_feature_value * b_range_multiple), self.max_feature_value * b_range_multiple, step * b_multiple):
-               for transformation in transforms: #loop runs from the highest w, for example if 8 is, since it is mulplie with *10 so it would run through a bench "w" that are in between -80 and 80
-                  w_t = w*transformation
+         while not optimized:
+            for b in np.arange(-1*(self.max_feature_value * b_multiple_range), self.max_feature_value * b_multiple_range, step * b_multiple):
+               for transformation in transforms: #loop runs from the highest w, for example if 8 is, since it is multiply with *10 so it would run through a bench "w" that are in between -80 and 80
+                  w_t = w*transformation 
                   found_option = True
-                  #weakest link in the SVM fundamentally
-                  #SMO attempts to ifx this a bit
+                  #SMO attempts to fix this a bit
                   #yi(xi.w+b0) >= 1 
                   # weakest link in the SVM fundamentally, since you have to run there through ALL data given to the program to make sure it fits
-                  for i in self.data: # "i" is the class, so here it ist whether it is positive or negative
+                  for i in self.data: # "i" is "yi" the classifier, positive or negative
                      for xi in self.data[i]:
                         yi = i # for clearness
-                        if not yi*(np.dot(w_t,xi)+b)>= 1: # if one of the sample do not fit the definition => all have to throw out
+                        if not yi*(np.dot(w_t,xi)+b) >= 1: # if one of the sample do not fit the definition => all have to throw out
                            found_option = False
                            break
                         #print(xi,":",yi*(np.dot(w_t,xi)+b)) #not needed
@@ -64,9 +63,9 @@ class Support_Vector_Machine:
                   if found_option: # if everything have been validated
                      opt_dict[np.linalg.norm(w_t)] = [w_t,b] #norm of x_t <=> ||w|| as key  =   the complied values of w (transformed) and b  
                      
-            if w[0] < 0: # w[0] the value of each index are the same;  and we do not have to go further then zero, since we had the transfrom already done. 
+            if w[0] < 0: # w[0] the value of w are the same;  and we do not have to go further then zero, since we had the transfrom already done. 
                optimized = True
-               print("Optimized a step")
+               print("Optimized a step.")
             else:
                w = w - step # so: [w][w] - [step, step]
          norms = sorted([n for n in opt_dict]) # sorting the list of the norms asc 
